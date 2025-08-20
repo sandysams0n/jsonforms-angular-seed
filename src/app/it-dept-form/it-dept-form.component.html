@@ -1,0 +1,21 @@
+<div style="text-align:center">
+  <h1 class="mt-4">
+    IT Dept employee Registration
+  </h1>
+</div>
+
+<!-- <form (ngSubmit)="onSubmit()"> -->
+
+<div class="mt-5 d-flex justify-content-center align-items-start" style="min-height: 60vh;">
+  <div class="w-100" style="max-width: 600px;">
+    <!-- <h2 class="text-center">Employee Details</h2> -->
+    <jsonforms [data]="data" [schema]="schema" [uischema]="uischema" [renderers]="renderers"
+      [config]="{ submitted: submitted }" [validationMode]="validationMode"></jsonforms>
+    <button class="btn mt-4" (click)="onSubmit()">Submit</button>
+  </div>
+</div>
+
+<!-- </form> -->
+
+<!-- [ajv]="ajv" -->
+ /////////////hide form show data, nav back to DASH
