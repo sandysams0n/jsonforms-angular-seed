@@ -1,0 +1,58 @@
+import { Component } from '@angular/core';
+import { JsonFormsModule } from '@jsonforms/angular';
+import { JsonFormsAngularMaterialModule, angularMaterialRenderers } from '@jsonforms/angular-material';
+import * as validateUtil from '../validate.util';
+import uischemaAsset from '../../assets/uischema.json';
+import schemaAsset from '../../assets/schema.json';
+import dataAsset from '../data';
+import { Router } from '@angular/router';
+import { AppService } from '../app.service';
+
+@Component({
+  selector: 'app-it-dept-form',
+  templateUrl: './it-dept-form.component.html',
+  styleUrls: ['./it-dept-form.component.scss'],
+  standalone: true,
+  imports: [JsonFormsModule, JsonFormsAngularMaterialModule]
+})
+export class ItDeptFormComponent {
+  renderers = [
+    ...angularMaterialRenderers
+  ];
+  uischema = uischemaAsset;
+  schema = schemaAsset;
+  data: any;
+  submitted = false;
+  validationMode: 'ValidateAndHide' | 'ValidateAndShow' = 'ValidateAndHide';
+
+  constructor(private router: Router, private appService: AppService) {
+    this.createNewFormInstance();
+  }
+
+  createNewFormInstance() {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const currentDate = `${yyyy}-${mm}-${dd}`;
+    this.data = { doj: currentDate };
+    this.submitted = false;
+  }
+
+  onSubmit() {
+    this.validationMode = 'ValidateAndShow';
+    const isValid = validateUtil.validateData(this.schema, this.data);
+    if (isValid) {
+      this.submitted = true;
+
+      this.appService.setCreated(this.data);
+      this.router.navigate(['new-user'])
+    } else {
+      this.submitted = false;
+    }
+  }
+
+  onDataChange(newData: any) {
+    this.data = newData;
+  }
+}

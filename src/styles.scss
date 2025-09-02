@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	box-sizing: border-box;
+}
+.brown-btn {
+  background-color: burlywood;
+  color: white;
+  height: 40px;
+  width: 250px;
+  border: none;
+}
+.brown-btn:hover,
+.brown-btn:active,
+.brown-btn:focus {
+  background-color: #deb887;
+  color: white;
+  border: none;
+}
