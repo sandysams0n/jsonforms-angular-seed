@@ -12,7 +12,7 @@
     {
       "type": "Control",
       "scope": "#/properties/date",
-      "title": "Date of Birth"
+      "label": "Date of Birth"
     },
      {
       "type": "Control",
@@ -33,6 +33,21 @@
       "options": {
         "autocomplete": true
       }
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/number",
+      "label": "Phone Number"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/address",
+      "label": "Address"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/email",
+      "label": "Email"
     }
   ]
 }

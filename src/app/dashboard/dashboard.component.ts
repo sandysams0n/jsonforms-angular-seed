@@ -19,7 +19,8 @@ export class DashboardComponent {
   cards = [
     { title: 'IT Dept employee Registration', icon: 'bi-motherboard', route: '/it-dept-form' },
     { title: 'HR Dept employee Registration', icon: 'bi-person-lines-fill', route: '/hr-dept-form' },
-    { title: 'View Newly Registered Employees', icon: 'bi-people-fill', route: '/finance-dept-form'   }
+    { title: 'View Newly Registered Employees', icon: 'bi-people-fill', route: '/finance-dept-form'},
+    { title: 'View All Employees', icon: 'bi-people', route: '/view-all-employees' }
     // Add more cards as needed
   ];
 

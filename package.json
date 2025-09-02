@@ -23,7 +23,7 @@
     "@jsonforms/angular": "3.6.0",
     "@jsonforms/angular-material": "3.6.0",
     "@jsonforms/core": "3.6.0",
-    "ajv": "^8.6.1",
+    "ajv": "^8.17.1",
     "bootstrap": "^5.3.7",
     "bootstrap-icons": "^1.13.1",
     "core-js": "^2.4.1",

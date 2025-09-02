@@ -1,4 +1,5 @@
 {
+  "type": "object",
   "properties": {
     "firstName": {
       "type": "string"
@@ -10,21 +11,27 @@
       "type": "string",
       "format": "date"
     },
-     "doj": {
+    "doj": {
       "type": "string",
       "format": "date"
     },
-     "autocompleteEnum": {
+    "autocompleteEnum": {
       "type": "string",
-      "enum": [
-        "ATC",
-        "TC",
-        "STC"
-      ]
+      "enum": ["ATC", "TC", "STC"]
+    },
+    "number": {
+      "type": "string",
+      "pattern": "^[0-9]{10}$",
+      "minLength": 10,
+      "maxLength": 10
+    },
+    "address":{
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
     }
-
-
-
   },
-  "required": ["firstName", "date", "autocompleteEnum"]
+  "required": ["firstName", "date", "autocompleteEnum", "number", "address", "email"]
 }

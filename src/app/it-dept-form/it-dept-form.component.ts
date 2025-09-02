@@ -1,10 +1,12 @@
-
 import { Component } from '@angular/core';
 import { JsonFormsModule } from '@jsonforms/angular';
 import { JsonFormsAngularMaterialModule, angularMaterialRenderers } from '@jsonforms/angular-material';
+import * as validateUtil from '../validate.util';
 import uischemaAsset from '../../assets/uischema.json';
 import schemaAsset from '../../assets/schema.json';
 import dataAsset from '../data';
+import { Router } from '@angular/router';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-it-dept-form',
@@ -23,7 +25,7 @@ export class ItDeptFormComponent {
   submitted = false;
   validationMode: 'ValidateAndHide' | 'ValidateAndShow' = 'ValidateAndHide';
 
-  constructor() {
+  constructor(private router: Router, private appService: AppService) {
     this.createNewFormInstance();
   }
 
@@ -33,14 +35,24 @@ export class ItDeptFormComponent {
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
     const currentDate = `${yyyy}-${mm}-${dd}`;
-    this.data = { ...dataAsset, doj: currentDate };
+    this.data = { doj: currentDate };
     this.submitted = false;
   }
 
   onSubmit() {
-    this.submitted = true;
-    // Add your save logic here
-    this.validationMode = 'ValidateAndShow'
-    console.log(this.validationMode, "VAL")
+    this.validationMode = 'ValidateAndShow';
+    const isValid = validateUtil.validateData(this.schema, this.data);
+    if (isValid) {
+      this.submitted = true;
+
+      this.appService.setCreated(this.data);
+      this.router.navigate(['new-user'])
+    } else {
+      this.submitted = false;
+    }
+  }
+
+  onDataChange(newData: any) {
+    this.data = newData;
   }
 }
