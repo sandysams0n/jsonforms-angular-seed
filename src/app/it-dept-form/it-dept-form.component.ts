@@ -28,10 +28,10 @@ export class ItDeptFormComponent {
   validationMode: 'ValidateAndHide' | 'ValidateAndShow' = 'ValidateAndHide';
 
   constructor(private router: Router, private appService: AppService) {
-    this.createNewFormInstance();
+
   }
 
-  createNewFormInstance() {
+  ngOnInit() {
     this.data = { department: 'IT' };
     this.submitted = false;
   }

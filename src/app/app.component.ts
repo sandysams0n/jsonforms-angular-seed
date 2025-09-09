@@ -24,10 +24,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.createNewFormInstance();
-  }
-
-  createNewFormInstance() {
     this.submitted = false;
   }
 
