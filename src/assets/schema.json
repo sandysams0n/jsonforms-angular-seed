@@ -11,11 +11,11 @@
       "type": "string",
       "format": "date"
     },
-    "doj": {
+    "department": {
       "type": "string",
-      "format": "date"
+      "default": "IT"
     },
-    "autocompleteEnum": {
+    "designation": {
       "type": "string",
       "enum": ["ATC", "TC", "STC"]
     },
@@ -33,5 +33,5 @@
       "format": "email"
     }
   },
-  "required": ["firstName", "date", "autocompleteEnum", "number", "address", "email"]
+  "required": ["firstName", "date", "designation", "number", "address", "email"]
 }

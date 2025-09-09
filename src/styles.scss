@@ -1,11 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
 html, body {
 	margin: 0;
 	padding: 0;
 	width: 100%;
-	box-sizing: border-box;
 }
 .brown-btn {
   background-color: burlywood;
@@ -21,3 +19,27 @@ html, body {
   color: white;
   border: none;
 }
+
+.save {
+  background-color: burlywood;
+}
+
+.save, .cancel{
+  border: none;
+  width: 100px;
+  height: 38px;
+  border-radius: 5px;
+}
+
+textarea{
+  resize: none;
+}
+
+.valid{
+  border-color: rgb(51, 234, 51);
+}
+
+.invalid{
+  border-color: red;
+}
+

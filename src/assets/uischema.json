@@ -14,21 +14,17 @@
       "scope": "#/properties/date",
       "label": "Date of Birth"
     },
-     {
+    {
       "type": "Control",
-      "scope": "#/properties/doj",
-      "label": "Date of Joining",
-      "rule": {
-        "effect": "DISABLE",
-        "condition": {
-          "scope": "#/properties/doj",
-          "schema": {}
-        }
+      "scope": "#/properties/department",
+      "label": "Department",
+      "options": {
+        "readonly": true
       }
     },
     {
       "type": "Control",
-      "scope": "#/properties/autocompleteEnum",
+      "scope": "#/properties/designation",
       "label": "Designation",
       "options": {
         "autocomplete": true

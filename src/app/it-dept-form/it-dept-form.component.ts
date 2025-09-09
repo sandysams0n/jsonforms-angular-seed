@@ -7,13 +7,15 @@ import schemaAsset from '../../assets/schema.json';
 import dataAsset from '../data';
 import { Router } from '@angular/router';
 import { AppService } from '../app.service';
+import { ColourCodePipe } from '../pipes/colour-code.pipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-it-dept-form',
   templateUrl: './it-dept-form.component.html',
   styleUrls: ['./it-dept-form.component.scss'],
   standalone: true,
-  imports: [JsonFormsModule, JsonFormsAngularMaterialModule]
+  imports: [JsonFormsModule, JsonFormsAngularMaterialModule, ColourCodePipe, CommonModule]
 })
 export class ItDeptFormComponent {
   renderers = [
@@ -30,12 +32,7 @@ export class ItDeptFormComponent {
   }
 
   createNewFormInstance() {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    const currentDate = `${yyyy}-${mm}-${dd}`;
-    this.data = { doj: currentDate };
+    this.data = { department: 'IT' };
     this.submitted = false;
   }
 

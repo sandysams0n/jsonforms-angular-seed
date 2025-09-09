@@ -17,17 +17,14 @@ export class DashboardComponent {
   constructor(private router: Router) {}
 
   cards = [
-    { title: 'IT Dept employee Registration', icon: 'bi-motherboard', route: '/it-dept-form' },
-    { title: 'HR Dept employee Registration', icon: 'bi-person-lines-fill', route: '/hr-dept-form' },
-    { title: 'View Newly Registered Employees', icon: 'bi-people-fill', route: '/finance-dept-form'},
-    { title: 'View All Employees', icon: 'bi-people', route: '/view-all-employees' }
-    // Add more cards as needed
+    { title: 'IT Dept employee Registration (json form)', icon: 'bi-motherboard', route: '/it-dept-form' },
+    { title: 'Finance Dept employee Registration (template-driven)', icon: 'bi-person-lines-fill', route: '/finance-dept-form' },
+    { title: 'HR Dept employee Registration (reactive)', icon: 'bi-list-ul', route: '/hr-dept-form' },
+    // { title: 'View Newly Registered Employees', icon: 'bi-people-fill', route: '/view-newly-registered-employees'},
+    { title: 'View All Employees (GET API)', icon: 'bi-people', route: '/view-all-employees' }
   ];
 
   formNavigation(department: string) {
-    // if (department.toLowerCase() === 'it') {
       this.router.navigate([department]);
-    // }
-    // Add more department routes as needed
   }
 }
