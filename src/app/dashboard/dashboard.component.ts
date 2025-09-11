@@ -21,7 +21,8 @@ export class DashboardComponent {
     { title: 'Finance Dept employee Registration (template-driven)', icon: 'bi-person-lines-fill', route: '/finance-dept-form' },
     { title: 'HR Dept employee Registration (reactive)', icon: 'bi-list-ul', route: '/hr-dept-form' },
     // { title: 'View Newly Registered Employees', icon: 'bi-people-fill', route: '/view-newly-registered-employees'},
-    { title: 'View All Employees (GET API)', icon: 'bi-people', route: '/view-all-employees' }
+    { title: 'View All Employees (GET API)', icon: 'bi-people', route: '/view-all-employees' },
+    { title: 'Roles', icon: 'bi-gear-fill', route: '/roles' }
   ];
 
   formNavigation(department: string) {

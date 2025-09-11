@@ -27,11 +27,17 @@ export class AppService {
   private userCreated = new BehaviorSubject<any>({});
   getCreated = this.userCreated.asObservable();
 
+  private searchTermSubject = new BehaviorSubject<string>('');
+  searchTerm$ = this.searchTermSubject.asObservable();
+
   setCreated(value: Employee[] ) {
     this.userCreated.next(value);
   }
 
   getUsers() {
     return this.http.get<Employee[]>(`${this.apiUrl}/users`);
+  }
+  updateSearchTerm(term: string) {
+    this.searchTermSubject.next(term);
   }
 }
