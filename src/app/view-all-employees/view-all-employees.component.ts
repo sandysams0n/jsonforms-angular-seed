@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { AppService } from '../app.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, takeUntil, map } from 'rxjs/operators';
+import { forkJoin, of, Subject } from 'rxjs';
 
 export interface Address {
   street: string;
@@ -30,42 +30,37 @@ export interface Employee {
 })
 export class ViewAllEmployeesComponent {
 
-constructor(private appService: AppService){}
-users:Employee[] = []
-originalUsers: Employee[] = [];
-searchValue: string = '';
+  constructor(private appService: AppService) { }
+  users: Employee[] = []
+  originalUsers: Employee[] = [];
+  searchValue: string = '';
+  posts: any[] = [];
+  userPostsMap: { [userId: number]: any[] } = {};
 
-ngOnInit() {
-  this.appService.searchTerm$.subscribe((term) => {
-      this.searchValue = term
-
-      this.users = this.originalUsers.filter((user: Employee) =>
-      user.name.toLowerCase().includes(this.searchValue.toLowerCase())
-  );
-  });
-  this.appService.getUsers().subscribe((users: Employee[]) => {
-    users.forEach(user => {
-      let nameLength = user.name.length
-
-      if(nameLength % 2 == 0){
-        user.gender = 'Female';
-      }
-      else{
-        user.gender = 'Male';
-      }
+  ngOnInit() {
+    this.appService.searchTerm$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(term => this.appService.getUsers(term)),
+      switchMap(users => {
+        const processedUsers: Employee[] = users.map(user => {
+          const employeeWithGender: Employee = { ...user };
+          const nameLength = user.name.length;
+          employeeWithGender.gender = (nameLength % 2 === 0) ? 'Female' : 'Male';
+          return employeeWithGender;
+        });
+        this.users = processedUsers;
+        if (!processedUsers.length) {
+          return of([]);
+        }
+        return forkJoin(processedUsers.map(u => this.appService.getPosts(u.id)));
+      })
+    ).subscribe(postsArrays => {
+      this.posts = postsArrays.flat();
+      this.userPostsMap = {};
+      this.users.forEach((user, idx) => {
+        this.userPostsMap[user.id] = postsArrays[idx];
+      });
     });
-    this.users = users;
-    this.originalUsers = [...users]
-
-  });
-}
-// onSearch(value: string) {
-  // this.users = this.originalUsers.filter((user: Employee) =>
-  //   user.name.toLowerCase().includes(value.toLowerCase()) ||
-  //   user.email.toLowerCase().includes(value.toLowerCase()) ||
-  //   user.address.city.toLowerCase().includes(value.toLowerCase()) ||
-  //   (user.gender?.toLowerCase().includes(value.toLowerCase()))
-  // );
-
-// }
+  }
 }

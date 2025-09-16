@@ -1,16 +1,19 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { effect, Injectable, signal } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class RoleService {
-  private roleSubject = new BehaviorSubject<string | null>(this.getRoleFromStorage());
-  role$ = this.roleSubject.asObservable();
 
-  setRole(role: string) {
-    this.roleSubject.next(role);
-    localStorage.setItem('userRole', role);
+  currentRole = signal<string>(localStorage.getItem('userRole') || '');
+
+  constructor() {
+    effect(() => {
+      const role = this.currentRole();
+      if (role) {
+        localStorage.setItem('userRole', role);
+      }
+    });
   }
-  getRoleFromStorage(): string | null {
-    return localStorage.getItem('userRole');
+  setRole(role: string) {
+    this.currentRole.set(role);
   }
 }

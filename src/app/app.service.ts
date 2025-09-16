@@ -34,10 +34,13 @@ export class AppService {
     this.userCreated.next(value);
   }
 
-  getUsers() {
-    return this.http.get<Employee[]>(`${this.apiUrl}/users`);
+  getUsers(query: string) {
+    return this.http.get<Employee[]>(`${this.apiUrl}/users?name_like=${query}`);
   }
   updateSearchTerm(term: string) {
     this.searchTermSubject.next(term);
+  }
+  getPosts(id: number) {
+    return this.http.get<any>(`${this.apiUrl}/posts?id=${id}`);
   }
 }

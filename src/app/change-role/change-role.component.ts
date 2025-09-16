@@ -22,6 +22,7 @@ export class ChangeRoleComponent {
   ];
 
   selectedRole: string = '';
+  role: Role | undefined;
 
   constructor(private roleService: RoleService) {}
 
@@ -29,9 +30,7 @@ export class ChangeRoleComponent {
     this.roleService.setRole(role);
   }
   ngOnInit() {
-    const stored = this.roleService.getRoleFromStorage();
-    if (stored) {
-      this.selectedRole = stored;
-    }
+
+    this.selectedRole = this.roleService.currentRole() || '';
   }
 }

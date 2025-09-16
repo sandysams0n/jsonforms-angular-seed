@@ -1,8 +1,8 @@
 .card {
   width: 250px;
-  height: 250px;
+  // height: 250px;
   text-align: -webkit-center;
-  padding: 30px
+  padding: 30px;
 }
 i {
   color: burlywood;
@@ -19,16 +19,20 @@ i {
 //   }
 // }
 
-.detail{
+.detail {
   word-break: break-all;
 }
 
-.search-field{
+.search-field {
   min-width: 300px;
   height: 35px;
   border-radius: 5px;
   border: 1px solid lightgrey;
 }
-.text-danger{
+.text-danger {
   font-size: 1.5rem;
+}
+ul {
+  padding: 0px;
+  text-align: left;
 }

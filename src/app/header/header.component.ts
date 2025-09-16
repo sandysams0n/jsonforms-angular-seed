@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AppService } from '../app.service';
 import { CommonModule } from '@angular/common';
@@ -21,13 +21,13 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnDestroy {
   searchValue: string = '';
   showSearchbar: boolean = false;
-  selectedRole: string = '';
+  selectedRole: any;
   private roleSub: Subscription | undefined;
+
 
   constructor(
     private router: Router,
     private appService: AppService,
-    private route: ActivatedRoute,
     private roleService: RoleService
   ) {}
 
@@ -44,9 +44,8 @@ export class HeaderComponent implements OnDestroy {
       this.showSearchbar = this.router.url.includes('view-all-employees');
     });
 
-    this.roleSub = this.roleService.role$.subscribe(role => {
-      this.selectedRole = role || '';
-    });
+
+    this.selectedRole = this.roleService.currentRole || '';
   }
 
   ngOnDestroy(): void {

@@ -30,9 +30,21 @@
         <span class="detail">City: {{ user.address.city }}</span>
         <span class="detail">Gender: {{ user.gender }}</span>
       </div>
+
+      <div *ngIf="userPostsMap[user.id] && userPostsMap[user.id].length > 0" class="mt-4">
+        <span>Posts:</span>
+        <ul>
+          <li *ngFor="let post of userPostsMap[user.id]">
+            <div>{{ post.title }}</div>
+            <span>{{ post.body }}</span>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <div *ngIf="users.length === 0" class="mt-5">
     <p class="text-danger">No employees found</p>
 </div>
+
+
