@@ -10,6 +10,7 @@ export interface Address {
 }
 
 export interface Employee {
+  gender: string;
   id: number;
   name: string;
   username: string;
@@ -34,13 +35,13 @@ export class AppService {
     this.userCreated.next(value);
   }
 
-  getUsers(query: string) {
-    return this.http.get<Employee[]>(`${this.apiUrl}/users?name_like=${query}`);
-  }
+  // getUsers(query: string) {
+  //   return this.http.get<Employee[]>(`${this.apiUrl}/users?name_like=${query}`);
+  // }
   updateSearchTerm(term: string) {
     this.searchTermSubject.next(term);
   }
-  getPosts(id: number) {
-    return this.http.get<any>(`${this.apiUrl}/posts?id=${id}`);
-  }
+  // getPosts(id: number) {
+  //   return this.http.get<any>(`${this.apiUrl}/posts?id=${id}`);
+  // }
 }

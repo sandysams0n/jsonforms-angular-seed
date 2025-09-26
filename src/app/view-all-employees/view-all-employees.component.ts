@@ -1,9 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AppService } from '../app.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, switchMap, takeUntil, map } from 'rxjs/operators';
-import { forkJoin, of, Subject } from 'rxjs';
+import { forkJoin, Observable, of, Subject } from 'rxjs';
+
+import { Store } from '@ngrx/store';
+import { loadUsers, clearUsersData } from '../../store/users.actions';
+import {
+  selectUsers,
+  selectUserPostsMap,
+  selectAnyLoading,
+  selectUsersError
+} from '../../store/users.selectore';
 
 export interface Address {
   street: string;
@@ -28,39 +37,47 @@ export interface Employee {
   templateUrl: './view-all-employees.component.html',
   styleUrl: './view-all-employees.component.scss'
 })
-export class ViewAllEmployeesComponent {
+export class ViewAllEmployeesComponent implements OnDestroy {
+// NgRx observables
+  users$: Observable<Employee[]>;
+  userPostsMap$: Observable<{ [userId: number]: any[] }>;
+  loading$: Observable<boolean>;
+  error$: Observable<string | null>;
 
-  constructor(private appService: AppService) { }
-  users: Employee[] = []
-  originalUsers: Employee[] = [];
-  searchValue: string = '';
-  posts: any[] = [];
-  userPostsMap: { [userId: number]: any[] } = {};
+  private destroy$ = new Subject<void>();
+  constructor(
+    private appService: AppService,
+    private store: Store
+  ) {
+    this.users$ = this.store.select(selectUsers);
+    this.userPostsMap$ = this.store.select(selectUserPostsMap);
+    this.loading$ = this.store.select(selectAnyLoading);
+    this.error$ = this.store.select(selectUsersError);
+  }
 
   ngOnInit() {
-    this.appService.searchTerm$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap(term => this.appService.getUsers(term)),
-      switchMap(users => {
-        const processedUsers: Employee[] = users.map(user => {
-          const employeeWithGender: Employee = { ...user };
-          const nameLength = user.name.length;
-          employeeWithGender.gender = (nameLength % 2 === 0) ? 'Female' : 'Male';
-          return employeeWithGender;
-        });
-        this.users = processedUsers;
-        if (!processedUsers.length) {
-          return of([]);
+    // Load all users initially
+    this.store.dispatch(loadUsers({ searchTerm: 'all' }));
+
+    
+    this.appService.searchTerm$
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(searchTerm => {
+        if (searchTerm.trim().length > 0) {
+          this.store.dispatch(loadUsers({ searchTerm }));
+        } else {
+          // Load all users when search is cleared
+          this.store.dispatch(loadUsers({ searchTerm: 'all' }));
         }
-        return forkJoin(processedUsers.map(u => this.appService.getPosts(u.id)));
-      })
-    ).subscribe(postsArrays => {
-      this.posts = postsArrays.flat();
-      this.userPostsMap = {};
-      this.users.forEach((user, idx) => {
-        this.userPostsMap[user.id] = postsArrays[idx];
       });
-    });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
